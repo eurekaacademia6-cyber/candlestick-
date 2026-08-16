@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="cv_bg">#071018</color>
+    <color name="cv_panel">#0D1D2A</color>
+    <color name="cv_accent">#FFC107</color>
+    <color name="cv_cyan">#00B8D4</color>
+    <color name="cv_white">#F5F7FA</color>
+    <color name="cv_muted">#9FB0C0</color>
+    <color name="cv_green">#00C853</color>
+    <color name="cv_red">#FF5252</color>
+</resources>
