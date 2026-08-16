@@ -50,14 +50,13 @@ jobs:
 
       - name: Check project structure
         run: |
-          echo "Repository root:"
+          echo "=== Repository root ==="
           ls -la
           echo ""
-          echo "App directory:"
-          ls -la app
-          echo ""
-          echo "Gradle files:"
-          ls -la build.gradle settings.gradle gradle.properties
+          echo "=== Source files ==="
+          find . -maxdepth 2 -type f \
+            \( -name "*.java" -o -name "*.kt" -o -name "*.xml" -o -name "build.gradle" -o -name "settings.gradle" \) \
+            -print | sort
 
       - name: Clean project
         run: |
@@ -69,12 +68,25 @@ jobs:
 
       - name: Find generated APK
         run: |
-          echo "Generated APK files:"
-          find app/build/outputs/apk -type f -name "*.apk" -print
+          echo "=== APK files ==="
+          find . -type f -name "*.apk" -print
+
+      - name: Verify APK exists
+        run: |
+          APK_COUNT=$(find . -type f -name "*.apk" | wc -l)
+
+          if [ "$APK_COUNT" -eq 0 ]; then
+            echo "ERROR: No APK was generated."
+            exit 1
+          fi
+
+          echo "Found $APK_COUNT APK file(s)."
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: CandleVisionExpert-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: |
+            **/build/outputs/apk/debug/*.apk
+            build/outputs/apk/debug/*.apk
           if-no-files-found: error
